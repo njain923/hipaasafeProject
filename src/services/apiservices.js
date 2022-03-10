@@ -65,3 +65,9 @@ export function GetPatients(uid) {
     method: "GET",
   });
 }
+
+export function getAppointmentHistory(uid,from, to) {
+  return RequestAPI(BASE_URL + `/query/appointments/fetch/by-date-range?from_date=${from}&to_date=${to}&doctor_id=${uid}`, {
+    method: "GET",
+  });
+}

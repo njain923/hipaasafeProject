@@ -7,10 +7,7 @@ import PatientsList from "./patientsList/PatientsList";
 import moment from "moment";
 import { KPIDoctorDashboard ,getDoctors,GetPatients} from '../../services/apiservices'
 import appContext from "../../context/appcontext/AppContext";
-import {
-  Form,
-  InputGroup,
-} from "react-bootstrap";
+import { Form,InputGroup,} from "react-bootstrap";
 
 
 const Dashboard = () => {
