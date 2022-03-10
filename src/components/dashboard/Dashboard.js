@@ -5,24 +5,49 @@ import CardIcon2 from "../../assets/img/cardIcon2.svg";
 import CardIcon3 from "../../assets/img/cardIcon3.svg";
 import PatientsList from "./patientsList/PatientsList";
 import moment from "moment";
-import { KPIDoctorDashboard } from '../../services/apiservices'
+import { KPIDoctorDashboard ,getDoctors} from '../../services/apiservices'
 import appContext from "../../context/appcontext/AppContext";
+import {
+  Form,
+  InputGroup,
+} from "react-bootstrap";
 
 
 const Dashboard = () => {
   const AppContext = useContext(appContext);
-  console.log(AppContext);
   const [kpi, setKpi] = useState(null);
+  const [doctors, setDoctors] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  
   useEffect(() => {
-    getKPIAPI()
+
+    if(AppContext?.user?.role_id===4){
+      getDoctorsAPI();
+    }else{
+      getKPIAPI(AppContext?.user?.uid)
+    }
   }, [])
 
-  const getKPIAPI = async () => {
-    let res = await KPIDoctorDashboard(AppContext?.user?.uid);
+  const getKPIAPI = async (uid) => {
+    let res = await KPIDoctorDashboard(uid);
     if (res?.success) {
       setKpi(res?.data);
     }
   }
+
+  const getDoctorsAPI = async () => {
+    let res = await getDoctors();
+    if (res?.success) {
+      setDoctors(res?.data?.rows);
+      getKPIAPI(res?.data?.rows[0].uid)
+    }
+  }
+
+  const handleDoctorChanges = (e) => {
+    e = JSON.parse(e.target.value)
+    setSelectedDoctor({name: e.name, value:e.uid});
+    getKPIAPI(e.uid);
+  };
 
 
   return (
@@ -104,6 +129,31 @@ const Dashboard = () => {
             </div>
           </div>
         </div>}
+        {selectedDoctor?.name}
+                  <div style={{width:300}}>
+                  <InputGroup className="input-group-floting">
+                    <InputGroup.Text>
+                      <i class="fa fa-user-o" aria-hidden="true"></i>
+                    </InputGroup.Text>
+                    <Form.Select
+                      className="custom-selectbox"
+                      aria-label="Select Speciality"
+                      onChange={handleDoctorChanges}
+                      name="speciality"
+                      value={selectedDoctor?.uid}
+                    >
+                      <option>Speciality</option>
+                      { doctors?.map((dt, ind) => (
+                          <>
+                            <option value={JSON.stringify(dt)}>
+                              {dt.name}
+                            </option>
+                          </>
+                        ))
+                        }
+                    </Form.Select>
+                  </InputGroup>
+                  </div>
 
         <div className="row">
           <PatientsList />
