@@ -36,6 +36,7 @@ const Dashboard = () => {
       setDoctors(res?.data?.rows);
       getKPIAPI(res?.data?.rows[0].uid)
       GetPatientAPI(res?.data?.rows[0].uid);
+      setSelectedDoctor({name: res?.data?.rows[0].name, value:res?.data?.rows[0].uid});
     }
   }
 
@@ -212,30 +213,34 @@ const Dashboard = () => {
             </div>
           </div>
         </div>}
-        {selectedDoctor?.name}
-                  <div style={{width:300}}>
-                  <InputGroup className="input-group-floting">
-                    <InputGroup.Text>
-                      <i class="fa fa-user-o" aria-hidden="true"></i>
-                    </InputGroup.Text>
-                    <Form.Select
-                      className="custom-selectbox"
-                      aria-label="Select Speciality"
-                      onChange={handleDoctorChanges}
-                      name="speciality"
-                      value={selectedDoctor?.uid}
-                    >
-                      { doctors?.map((dt, ind) => (
-                          <>
-                            <option value={JSON.stringify(dt)}>
-                              {dt.name}
-                            </option>
-                          </>
-                        ))
-                        }
-                    </Form.Select>
-                  </InputGroup>
-                  </div>
+      {doctors&&
+         <>
+         {selectedDoctor?.name}
+                    <div style={{width:300}}>
+                    <InputGroup className="input-group-floting">
+                      <InputGroup.Text>
+                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                      </InputGroup.Text>
+                      <Form.Select
+                        className="custom-selectbox"
+                        aria-label="Select Speciality"
+                        onChange={handleDoctorChanges}
+                        name="speciality"
+                        value={selectedDoctor?.uid}
+                      >
+                        { doctors?.map((dt, ind) => (
+                            <>
+                              <option value={JSON.stringify(dt)}>
+                                {dt.name}
+                              </option>
+                            </>
+                          ))
+                          }
+                      </Form.Select>
+                    </InputGroup>
+                    </div>
+         </> 
+      }
 
         <div className="row">
           <PatientsList patients={patients} />
