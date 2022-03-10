@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { getDoctors } from '../../services/apiservices'
-
+import { useHistory } from "react-router-dom";
 const DoctorTable = () => {
 
   const [doctors, setDoctors] = useState(null);
+  const histroy = useHistory();
   useEffect(() => {
     getDoctorsAPI()
   }, [])
@@ -13,7 +14,6 @@ const DoctorTable = () => {
     let res = await getDoctors();
     if (res?.success) {
       setDoctors(res?.data?.rows);
-      console.log(res?.data?.rows);
     }
   }
 
@@ -48,7 +48,7 @@ const DoctorTable = () => {
                     <td>{i?.doctor_details?.experience}</td>
                     <td>{i?.country_code} {i?.number}</td>
                     <td>
-                      <Button variant="outline-primary btn-edit">Edit</Button>
+                      <Button variant="outline-primary btn-edit" onClick={() => { histroy.push('/main/add-docter', { doctor: i }) }}>Edit</Button>
                     </td>
                   </tr>
                 ))}

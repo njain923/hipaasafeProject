@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { addDoctor, getSpecialityList } from "../../../services/apiservices";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import {
   Form,
@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 
 const AddDoctor = () => {
+
   const [docterData, setDoctorData] = useState({
     name: "",
     email: "",
@@ -27,6 +28,8 @@ const AddDoctor = () => {
   const [spcList, setSpcList] = useState();
   const [options, setOptions] = useState(null);
   const histroy = useHistory();
+  const location = useLocation();
+
 
   let name;
   let value;
@@ -59,7 +62,18 @@ const AddDoctor = () => {
     const res = await getSpecialityList();
     if (res.success) {
       setSpcList(res.data);
-      setOptions(res.data?.map((dt) => { return { label: dt.title, value: dt.speciality_id }; }))
+      setOptions(res.data?.map((dt) => { return { label: dt.title, value: dt.speciality_id }; }));
+      if (location?.state?.doctor) {
+        setDoctorData({
+          uid: location?.state?.doctor?.uid,
+          name: location?.state?.doctor?.name,
+          email: "",
+          city: location?.state?.doctor?.doctor_details?.location,
+          mobile: location?.state?.doctor?.number,
+          speciality: location?.state?.doctor?.doctor_details?.speciality?.speciality_id,
+          year_of_exp: location?.state?.doctor?.doctor_details?.experience,
+        });
+      }
     }
   }, []);
 

@@ -48,7 +48,11 @@ export function getSpecialityList() {
   });
 }
 
-
+export function KPISupportDashboard() {
+  return RequestAPI(BASE_URL + `/query/kpi-cards/fetch/organization`, {
+    method: "GET",
+  });
+}
 
 export function KPIDoctorDashboard(uid) {
   return RequestAPI(BASE_URL + `/query/kpi-cards/fetch/dashboard?doctor_id=${uid}`, {
