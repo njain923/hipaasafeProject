@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { getNurses } from '../../services/apiservices'
+import { useHistory } from "react-router-dom";
 
 const NurseTable = () => {
-
+  const histroy = useHistory();
   const [nurses, setNurses] = useState(null);
   useEffect(() => {
     getNurseAPI()
@@ -44,7 +45,7 @@ const NurseTable = () => {
                     <td>{i?.exp}</td>
                     <td>{i?.country_code} {i?.number}</td>
                     <td>
-                      <Button variant="outline-primary btn-edit">Edit</Button>
+                    <Button variant="outline-primary btn-edit" onClick={() => { histroy.push('/main/add-nurse', { nurse: i }) }}>Edit</Button>
                     </td>
                   </tr>
                 ))}

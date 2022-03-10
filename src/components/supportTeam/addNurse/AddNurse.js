@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { addNurse } from "../../../services/apiservices";
 import { MultiSelect } from "react-multi-select-component";
 import { getDoctors } from '../../../services/apiservices'
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   Form,
   Row,
@@ -15,9 +15,24 @@ import {
 const AddNurse = () => {
   const [options, setOptions] = useState(null);
   const histroy = useHistory();
+  const location = useLocation();
+  const [nurseData, setNurseData] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+    country_code: "",
+  });
 
   useEffect(() => {
     getDoctorsAPI()
+    if (location?.state?.nurse) {
+      setNurseData({
+        name: "",
+        email: "",
+        mobile: "",
+        country_code: "",
+      });
+    }
   }, [])
 
   const getDoctorsAPI = async () => {
@@ -26,15 +41,6 @@ const AddNurse = () => {
       setOptions(res.data?.rows?.map((dt) => { return { label: dt.name, value: dt.uid }; }))
     }
   }
-
-  const [nurseData, setNurseData] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    country_code: "",
-  });
-
-  console.log("nurseData : ", nurseData);
 
   let name;
   let value;

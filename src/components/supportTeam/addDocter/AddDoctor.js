@@ -9,7 +9,6 @@ import {
   Col,
   Button,
   InputGroup,
-  FormControl,
   FloatingLabel,
 } from "react-bootstrap";
 
@@ -58,7 +57,11 @@ const AddDoctor = () => {
     }
   };
 
-  useEffect(async () => {
+  useEffect( () => {
+    getSpeciality();
+  }, []);
+
+  const getSpeciality = async()=>{
     const res = await getSpecialityList();
     if (res.success) {
       setSpcList(res.data);
@@ -75,7 +78,7 @@ const AddDoctor = () => {
         });
       }
     }
-  }, []);
+  }
 
   return (
     <>
