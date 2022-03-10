@@ -60,7 +60,7 @@ export function KPIDoctorDashboard(uid) {
   });
 }
 
-export function GetPatients() {
+export function GetPatients(uid) {
   return RequestAPI(BASE_URL + `/query/doctors/fetch/my-patients?page=1&limit=1`, {
     method: "GET",
   });

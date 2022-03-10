@@ -3,20 +3,7 @@ import { Table } from "react-bootstrap";
 import { GetPatients } from '../../../services/apiservices'
 import appContext from "../../../context/appcontext/AppContext";
 
-const PatientsList = () => {
-  const AppContext = useContext(appContext);
-  const [patients, setPatients] = useState(null);
-  useEffect(() => {
-    GetAPI()
-  }, [])
-
-  const GetAPI = async () => {
-    let res1 = await GetPatients();
-    if (res1?.success) {
-      setPatients(res1?.data?.rows);
-    }
-  }
-
+const PatientsList = ({patients}) => {
   return (
     <>
       <div className="col-12">
@@ -47,11 +34,11 @@ const PatientsList = () => {
 
                     {patients?.map((i, index) => (
                       <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
+                        <td>{index+1}</td>
+                        <td>{i?.list_patient_details?.name}</td>
+                        <td></td>
+                        <td></td>
+                        <td>{i?.list_patient_details?.number}</td>
                         <td>
                           <button
                             style={{ backgroundColor: "#0098FF" }}
