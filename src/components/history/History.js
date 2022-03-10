@@ -19,7 +19,8 @@ const History = () => {
     if(AppContext?.user?.role_id===4){
       getDoctorsAPI();
     }else{
-
+      getAppointmentHistoryAPI(AppContext?.user?.uid, startValue,endValue);
+      setSelectedDoctor(AppContext?.user?.uid);
     }
   }, [])
 
